@@ -10,8 +10,6 @@ import uy.com.emailvalidator.domain.EmailValidation;
 import uy.com.emailvalidator.external.mailbox.MailBoxWebServiceClient;
 import uy.com.emailvalidator.persistence.EmailValidationRepository;
 
-import java.util.List;
-
 @Service
 public class ValidationServiceImpl implements ValidationService {
 
@@ -42,9 +40,12 @@ public class ValidationServiceImpl implements ValidationService {
     }
 
     @Override
-    public List<EmailValidation> getEmailValidations(Integer page) {
+    public EmailValidationsResponse getEmailValidations(Integer page) {
 
         Page<EmailValidation> validations = emailValidationRepository.findAllByOrderByEmail(PageRequest.of(page, paginationSize));
-        return validations.getContent();
+        Integer totalPages = validations.getTotalPages();
+        Long totalItems = validations.getTotalElements();
+        return new EmailValidationsResponse(validations.getContent(), page, totalPages, totalItems);
+
     }
 }
