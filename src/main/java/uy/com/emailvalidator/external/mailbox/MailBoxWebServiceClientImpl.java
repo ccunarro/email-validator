@@ -79,13 +79,13 @@ public class MailBoxWebServiceClientImpl implements MailBoxWebServiceClient {
                 }
             } else {
                 log.error("Null response from apilayer backend");
+                throw new MailBoxBackendException("An error ocurred while communicating with external services");
             }
         } catch (IOException | URISyntaxException e) {
             log.error("Error while invoking apilayer backend", e);
             throw new MailBoxBackendException("An error ocurred while communicating with external services");
         }
 
-        return null;
     }
 
     public EmailValidation getValidationResult(CloseableHttpResponse response) {

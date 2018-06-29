@@ -21,6 +21,7 @@ public class ErrorHandler {
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     @ResponseBody
     public Object processWebServiceError(MailBoxBackendException ex) {
+
         return new ErrorWrapper(ex);
     }
 
