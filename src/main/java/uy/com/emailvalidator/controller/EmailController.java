@@ -6,14 +6,12 @@ import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import uy.com.emailvalidator.domain.EmailValidation;
 import uy.com.emailvalidator.service.EmailValidationsResponse;
 import uy.com.emailvalidator.service.ValidationService;
 
+@CrossOrigin(origins = "http://localhost:4200")
 @RestController
 public class EmailController {
 

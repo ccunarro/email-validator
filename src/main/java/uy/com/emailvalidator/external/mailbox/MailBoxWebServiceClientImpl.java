@@ -67,24 +67,26 @@ public class MailBoxWebServiceClientImpl implements MailBoxWebServiceClient {
                     .setParameter(EMAIL_PARAM, address)
                     .build();
             HttpGet httpget = new HttpGet(uri);
-            CloseableHttpResponse response = httpClient.execute(httpget);
+            try (CloseableHttpResponse response = httpClient.execute(httpget)) {
 
-            if (response != null) {
+                if (response != null) {
 
-                if (response.getStatusLine().getStatusCode() == HttpStatus.SC_OK) {
-                    return getValidationResult(response);
+                    if (response.getStatusLine().getStatusCode() == HttpStatus.SC_OK) {
+                        return getValidationResult(response);
+                    } else {
+                        log.warn("Response status code from invocation -> " + response.getStatusLine().getStatusCode());
+                        throw new MailBoxBackendException("An error ocurred while communicating with external services");
+                    }
                 } else {
-                    log.warn("Response status code from invocation -> " + response.getStatusLine().getStatusCode());
+                    log.error("Null response from apilayer backend");
                     throw new MailBoxBackendException("An error ocurred while communicating with external services");
                 }
-            } else {
-                log.error("Null response from apilayer backend");
-                throw new MailBoxBackendException("An error ocurred while communicating with external services");
             }
         } catch (IOException | URISyntaxException e) {
             log.error("Error while invoking apilayer backend", e);
             throw new MailBoxBackendException("An error ocurred while communicating with external services");
         }
+
 
     }
 
